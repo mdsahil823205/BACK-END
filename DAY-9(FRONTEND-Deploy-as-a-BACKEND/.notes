@@ -1,0 +1,103 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+const App = () => {
+  const [notes, setNotes] = useState([]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [editId, setEditId] = useState(null);
+
+  // 🔹 GET notes
+  function fetchNotes() {
+    axios.get("http://localhost:3000/api/notes").then((res) => {
+      setNotes(res.data.note);
+    });
+  }
+
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
+  // 🔹 ADD note
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    axios.post("http://localhost:3000/api/notes", {
+      title,
+      description,
+    }).then(() => {
+      fetchNotes();
+      setTitle("");
+      setDescription("");
+    });
+  }
+
+  // 🔹 DELETE note
+  function deleteNote(id) {
+    axios.delete(`http://localhost:3000/api/notes/${id}`).then(() => {
+      fetchNotes();
+    });
+  }
+
+  // 🔹 UPDATE note (PATCH)
+  function updateNote(e) {
+    e.preventDefault();
+
+    axios.patch(`http://localhost:3000/api/notes/${editId}`, {
+      title,
+      description,
+    }).then(() => {
+      fetchNotes();
+      setEditId(null);
+      setTitle("");
+      setDescription("");
+    });
+  }
+
+  return (
+    <>
+      {/* FORM */}
+      <form onSubmit={editId ? updateNote : handleSubmit}>
+        <input
+          placeholder="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+
+        <input
+          placeholder="description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+
+        <button type="submit">
+          {editId ? "update" : "add"}
+        </button>
+      </form>
+
+      {/* NOTES LIST */}
+      {notes.map((n) => (
+        <div key={n._id}>
+          <h3>{n.title}</h3>
+          <p>{n.description}</p>
+
+          <button
+            onClick={() => {
+              setEditId(n._id);
+              setTitle(n.title);
+              setDescription(n.description);
+            }}
+          >
+            edit
+          </button>
+
+          <button onClick={() => deleteNote(n._id)}>
+            delete
+          </button>
+        </div>
+      ))}
+    </>
+  );
+};
+
+export default App;

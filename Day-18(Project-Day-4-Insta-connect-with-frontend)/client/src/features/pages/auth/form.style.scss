@@ -1,0 +1,45 @@
+main{
+    min-height: 100vh;
+    min-width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+    .form-container{
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        h1{
+            font-size: 3rem;
+            text-transform: capitalize;
+        }
+        form{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            input,button{
+                padding: 0.75rem 1rem;
+                width: 400px;
+                border-radius: 10px;
+                background-color: whitesmoke;
+                border: none;
+                color: black;
+                font-size: 1.2rem;
+                outline: none;
+
+            }
+            input:active,button:active{
+                scale: 1.01;
+            }
+            button{
+                background-color: red;
+            }
+        }
+    }
+    .toggleAuthForm{
+        color: red;
+    }
+}

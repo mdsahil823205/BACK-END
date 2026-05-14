@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Gilroy';
+  color: rgb(234, 234, 234);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  background-color: rgb(39, 38, 38);
+  padding-inline: 1rem;
+  padding-block: 0.75rem;
+}
+
+.notes {
+  display: flex;
+  gap: 1rem;
+  text-transform: capitalize;
+  flex-wrap: nowrap;
+}
+
+.note {
+  background-color: rgb(110, 109, 109);
+  max-width: 20rem;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+}

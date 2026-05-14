@@ -1,0 +1,27 @@
+# Kubernetes Service file
+apiVersion: v1 # Service ke liye API version
+
+kind: Service # Yeh ek Service resource hai
+
+metadata:
+  name: kuber-service # Service ka naam
+
+spec:
+  # Yeh service kin Pods ko connect karegi
+  selector:
+    app: kuber
+
+  type: ClusterIP
+  # ClusterIP ka matlab:
+  # Service sirf Kubernetes cluster ke andar accessible hogi
+
+  ports:
+    - protocol: TCP
+      # Communication TCP protocol se hoga
+
+      port: 80
+      # Service ka external/internal port
+
+      targetPort: 3000
+      # Pod ke container ka actual port
+      # Request port 80 par aayegi aur 3000 par forward hogi

@@ -1,0 +1,46 @@
+# ==============================
+# BASE IMAGE
+# ==============================
+# HUM NODE.JS KA LIGHTWEIGHT VERSION (ALPINE) USE KAR RAHE HAIN
+# YE FAST AUR CHHOTA HOTA HAI → DOCKER IMAGE SIZE KAM REHTA HAI
+FROM node:20-alpine
+
+
+# ==============================
+# WORKING DIRECTORY
+# ==============================
+# CONTAINER KE ANDAR /app NAAM KA FOLDER BAN JAYEGA
+# AUR AB SE SARE COMMANDS ISI FOLDER KE ANDAR RUN HONGE
+WORKDIR /app
+
+
+# ==============================
+# PACKAGE FILES COPY
+# ==============================
+# PACKAGE.JSON AUR PACKAGE-LOCK.JSON DONO KO EK SAATH COPY KAR RAHE HAIN
+# YE BEST PRACTICE HAI KYUNKI DEPENDENCY INSTALL KE LIYE YE FILES ZAROORI HOTI HAIN
+COPY package*.json ./
+
+
+# ==============================
+# INSTALL DEPENDENCIES
+# ==============================
+# YE COMMAND NODE_MODULES INSTALL KAREGA
+# AGAR DEPENDENCIES PEHLE SE NAHI HAIN TOH INSTALL HO JAYENGI
+RUN npm install
+
+
+# ==============================
+# COPY PROJECT FILES
+# ==============================
+# AB PURA PROJECT (CLIENT KA CODE) CONTAINER KE /APP FOLDER ME COPY HOGA
+# MATLAB: JO BHI FILES TUMHARE PROJECT ME HAIN WO IMAGE KE ANDAR AA JAYENGI
+COPY . .
+
+
+# ==============================
+# START COMMAND
+# ==============================
+# CONTAINER START HONE KE BAAD YE COMMAND CHALEGI
+# "npm run dev" Vite development server start karega
+CMD ["npm", "run", "dev"]

@@ -1,0 +1,71 @@
+# ==============================
+# DOCKER COMPOSE FILE
+# ==============================
+
+# Ye "services" section batata hai ki hamare project mein kaun-kaun se containers chalenge
+services:
+
+  # ==============================
+  # 1. BACKEND SERVICE (SERVER)
+  # ==============================
+  server:
+
+    # "build" batata hai ki Dockerfile kahan hai
+    # Yahan Docker ./server folder ke andar se image banayega
+    build: ./server
+
+    # Ports mapping:
+    # "3000:3000" ka matlab:
+    # - Left side (3000) → tumhare computer ka port
+    # - Right side (3000) → container ka port
+    # Isse browser me http://localhost:3000 se access kar sakte ho
+    ports:
+      - "3000:3000"
+
+    # Volumes ka use hota hai live sync (Hot Reload) ke liye
+    volumes:
+      # Local folder (./server) ko container ke /app folder se link kar diya
+      # Matlab tum code change karoge → container me automatically update ho jayega
+      - ./server:/app
+
+      # Ye IMPORTANT hai ⚠️
+      # Node_modules ko sync nahi karte kyunki:
+      # - Tumhara system (Windows) alag hai
+      # - Docker container (Linux) alag hai
+      # Agar sync kiya toh errors aayenge
+      # Isliye container ka apna node_modules use hota hai
+      - /app/node_modules
+
+    # Container start hone ke baad ye command chalegi
+    # nodemon use kar rahe hain taaki code change hone par server auto-restart ho
+    # "-L" legacy mode hai → Docker me file changes detect karne ke liye
+    command: npx nodemon -L server.js
+
+
+  # ==============================
+  # 2. FRONTEND SERVICE (CLIENT - VITE)
+  # ==============================
+  client:
+
+    # Client ke Dockerfile se image build hogi
+    build: ./client
+
+    # Vite ka default port 5173 hota hai
+    # Isko bahar expose kar rahe hain
+    # Browser me: http://localhost:5173
+    ports:
+      - "5173:5173"
+
+    # Volumes for live reload
+    volumes:
+      # Local client code ko container ke /app se sync kar diya
+      # Matlab frontend me changes turant reflect honge
+      - ./client:/app
+
+      # Same reason as backend:
+      # node_modules ko sync nahi karte (OS difference issue)
+      - /app/node_modules
+
+    # Ye command Vite dev server start karegi
+    # "npm run dev" = development mode me project run
+    command: npm run dev

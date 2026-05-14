@@ -1,0 +1,44 @@
+# Kubernetes Deployment file
+apiVersion: apps/v1 # Deployment ke liye API version
+kind: Deployment # Yeh resource ek Deployment hai
+
+metadata:
+  name: kuber-deployment # Deployment ka naam
+
+spec:
+  replicas: 2 # Kitne Pods chalenge (2 copies)
+
+  # Deployment kin Pods ko manage karega
+  selector:
+    matchLabels:
+      app: kuber
+
+  # Pod ka template
+  template:
+    metadata:
+      labels:
+        app: kuber # Pod ko yeh label diya gaya hai
+
+    spec:
+      containers:
+        - name: kuber-container # Container ka naam
+
+          image: kuber_image  # Docker image ka naam
+
+          imagePullPolicy: Always
+          # Har baar latest image pull karne ki koshish karega
+
+          ports:
+            - containerPort: 3000
+              # Container ke andar app kis port par chal raha hai
+
+          resources:
+            # Maximum resources jo container use kar sakta hai
+            limits:
+              cpu: "400m" # 0.4 CPU
+              memory: "512Mi" # 512 MB RAM
+
+            # Minimum resources jo Kubernetes reserve karega
+            requests:
+              cpu: 200m # 0.2 CPU
+              memory: "256Mi" # 256 MB RAM

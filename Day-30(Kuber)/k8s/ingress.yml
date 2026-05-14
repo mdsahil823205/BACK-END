@@ -1,0 +1,38 @@
+# Kubernetes Ingress file
+apiVersion: networking.k8s.io/v1
+# Ingress ke liye API version
+
+kind: Ingress
+# Yeh ek Ingress resource hai
+
+metadata:
+  name: kuber-ingress
+  # Ingress ka naam
+
+spec:
+
+  ingressClassName: nginx
+  # Kaunsa ingress controller use hoga
+  # Yahan NGINX ingress controller use ho raha hai
+
+  rules:
+    - http:
+        paths:
+
+          - pathType: Prefix
+            # Prefix ka matlab:
+            # "/" se start hone wale sab routes match honge
+
+            path: "/"
+            # Root path
+
+            backend:
+              # Request kahan forward hogi
+
+              service:
+                name: kuber-service
+                # Kis service ko request bhejni hai
+
+                port:
+                  number: 80
+                  # Service ka port

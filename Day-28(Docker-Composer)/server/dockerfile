@@ -1,0 +1,46 @@
+# ==============================
+# BASE IMAGE
+# ==============================
+# Node.js ka lightweight version (alpine) use kar rahe hain
+# Isse image ka size chhota aur fast ho jata hai
+FROM node:20-alpine
+
+
+# ==============================
+# WORKING DIRECTORY
+# ==============================
+# Container ke andar /app naam ka folder create hoga
+# Ab se saare commands isi folder ke andar run honge
+WORKDIR /app
+
+
+# ==============================
+# PACKAGE FILES COPY
+# ==============================
+# package.json aur package-lock.json dono ek saath copy kar rahe hain
+# Ye dependencies install karne ke liye zaroori hote hain
+COPY package*.json ./
+
+
+# ==============================
+# INSTALL DEPENDENCIES
+# ==============================
+# Ye node_modules install karega
+# Agar dependencies missing hongi toh automatically install ho jayengi
+RUN npm install
+
+
+# ==============================
+# COPY PROJECT FILES
+# ==============================
+# Server folder ke andar jitna bhi code hai sab container me copy ho jayega
+# Matlab: pura backend code image ke andar aa jayega
+COPY . .
+
+
+# ==============================
+# START COMMAND
+# ==============================
+# Container start hone ke baad ye command chalegi
+# Ye tumhara backend server (server.js) start karega
+CMD ["node", "server.js"]

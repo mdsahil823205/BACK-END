@@ -1,0 +1,21 @@
+sabse pehle user ko register karaiynge 
+jisme user apna details dega 
+authentication/validation
+
+
+//.register
+1.email id
+2.username 
+3.password
+4.bio
+5.prolfilepic
+
+jab user login karega uss waqt user apna 
+//.login
+1. email ya phir username dega 
+2. password
+
+jab user post kuch karega toh user 
+1. image
+2. caption
+3.userid
